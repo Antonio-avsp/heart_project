@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<section class="cartao">
+    <h1>Dashboard</h1>
+    <div class="indicadores">
+        <div class="indicador">
+            <span class="indicador-numero">{{ stats.total }}</span>
+            <span class="indicador-label">Predições realizadas</span>
+        </div>
+        <div class="indicador risco">
+            <span class="indicador-numero">{{ stats.com }}</span>
+            <span class="indicador-label">Com indício de doença</span>
+        </div>
+        <div class="indicador seguro">
+            <span class="indicador-numero">{{ stats.sem }}</span>
+            <span class="indicador-label">Sem indício de doença</span>
+        </div>
+    </div>
+
+    {% if grafico %}
+        <div class="grafico">{{ grafico|safe }}</div>
+    {% else %}
+        <p class="placeholder">Ainda não há predições registradas. Faça uma
+        predição para ver as estatísticas aqui.</p>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<div class="grade">
+    <section class="cartao">
+        <h1>Predição de doença cardíaca</h1>
+        <p class="subtitulo">Preencha as variáveis clínicas do paciente para
+        estimar o risco de doença cardíaca.</p>
+
+        <form method="POST" class="formulario">
+            {% for campo in campos %}
+            <div class="campo">
+                <label for="{{ campo.nome }}">{{ campo.label }}</label>
+                {% if campo.tipo == "select" %}
+                <select name="{{ campo.nome }}" id="{{ campo.nome }}" required>
+                    {% for valor, texto in campo.opcoes %}
+                    <option value="{{ valor }}">{{ texto }}</option>
+                    {% endfor %}
+                </select>
+                {% else %}
+                <input type="number" name="{{ campo.nome }}" id="{{ campo.nome }}"
+                       min="{{ campo.min }}" max="{{ campo.max }}"
+                       step="{{ campo.step or 1 }}" required>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="botao">Realizar predição</button>
+        </form>
+    </section>
+
+    <section class="cartao resultado-area">
+        <h2>Resultado</h2>
+        {% if resultado and resultado.erro %}
+            <p class="erro">{{ resultado.erro }}</p>
+        {% elif resultado %}
+            <div class="resultado {{ 'risco' if resultado.predicao == 1 else 'seguro' }}">
+                <span class="resultado-rotulo">{{ resultado.rotulo }}</span>
+                <div class="probabilidades">
+                    <div>
+                        <span class="prob-valor">{{ resultado.prob_com }}%</span>
+                        <span class="prob-label">com doença</span>
+                    </div>
+                    <div>
+                        <span class="prob-valor">{{ resultado.prob_sem }}%</span>
+                        <span class="prob-label">sem doença</span>
+                    </div>
+                </div>
+            </div>
+            <p class="aviso">Resultado meramente educacional, não substitui
+            avaliação médica.</p>
+        {% else %}
+            <p class="placeholder">O resultado da predição aparecerá aqui após o
+            envio do formulário.</p>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

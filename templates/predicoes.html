@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<section class="cartao">
+    <h1>Histórico de predições</h1>
+    {% if registros %}
+    <div class="tabela-wrap">
+        <table class="tabela">
+            <thead>
+                <tr>
+                    <th>Data/Hora</th><th>Idade</th><th>Sexo</th>
+                    <th>Pressão</th><th>Colesterol</th><th>FC máx</th>
+                    <th>Resultado</th><th>Prob. doença</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in registros %}
+                <tr>
+                    <td>{{ r.data_hora }}</td>
+                    <td>{{ r.age }}</td>
+                    <td>{{ "M" if r.sex == 1 else "F" }}</td>
+                    <td>{{ r.trestbps }}</td>
+                    <td>{{ r.chol }}</td>
+                    <td>{{ r.thalach }}</td>
+                    <td>
+                        <span class="tag {{ 'risco' if r.predicao == 1 else 'seguro' }}">
+                            {{ "Com doença" if r.predicao == 1 else "Sem doença" }}
+                        </span>
+                    </td>
+                    <td>{{ r.prob_com }}%</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p class="placeholder">Nenhuma predição registrada ainda.</p>
+    {% endif %}
+</section>
+{% endblock %}

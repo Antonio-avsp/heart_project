@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}Predição de Doença Cardíaca{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="topo">
+        <div class="topo-conteudo">
+            <span class="logo">❤ CardioPredict</span>
+            <nav>
+                <a href="{{ url_for('index') }}">Predição</a>
+                <a href="{{ url_for('predicoes') }}">Histórico</a>
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="conteudo">
+        {% block conteudo %}{% endblock %}
+    </main>
+
+    <footer class="rodape">
+        <p>Projeto de Sistema de Predição · Modelo: {{ modelo or "—" }} ·
+        Base: UCI Heart Disease (Cleveland)</p>
+    </footer>
+</body>
+</html>

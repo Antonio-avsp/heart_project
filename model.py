@@ -104,7 +104,7 @@ def rodar_experimentos(df, n=N_EXECUCOES):
     return pd.DataFrame(registros)
 
 
-def exportar_melhor_modelo(df, nome_melhor):
+def exportar_melhor_modelo(df, nome_melhor, metricas=None):
     """Treina o melhor modelo no conjunto completo e o exporta com joblib."""
     X = df[FEATURES].values
     y = df[ALVO].values
@@ -115,6 +115,7 @@ def exportar_melhor_modelo(df, nome_melhor):
         "pipeline": modelo,
         "features": FEATURES,
         "nome_modelo": nome_melhor,
+        "metricas": metricas,
     }
     joblib.dump(pacote, CAMINHO_MODELO)
     return CAMINHO_MODELO
@@ -137,10 +138,20 @@ def main():
     print("Resultados dos experimentos (media +/- desvio em 30 execucoes):\n")
     print(tabela.to_string(index=False))
 
-    melhor = resultados.loc[resultados["F1_media"].idxmax(), "Modelo"]
+    linha_melhor = resultados.loc[resultados["F1_media"].idxmax()]
+    melhor = linha_melhor["Modelo"]
     print(f"\nMelhor modelo (maior F1 medio): {melhor}")
 
-    caminho = exportar_melhor_modelo(df, melhor)
+    # Métricas médias do melhor modelo (30 execuções), salvas junto ao .pkl
+    # para serem exibidas na aplicação web.
+    metricas = {
+        "acuracia": round(float(linha_melhor["Acuracia_media"]) * 100, 1),
+        "precisao": round(float(linha_melhor["Precisao_media"]) * 100, 1),
+        "sensibilidade": round(float(linha_melhor["Recall_media"]) * 100, 1),
+        "f1": round(float(linha_melhor["F1_media"]) * 100, 1),
+    }
+
+    caminho = exportar_melhor_modelo(df, melhor, metricas)
     print(f"Modelo exportado em: {caminho}")
 
     resultados.to_csv("instances/resultados_experimentos.csv", index=False)

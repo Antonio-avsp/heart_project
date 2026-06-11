@@ -15,7 +15,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.io as pio
 
-from classifier import prever, FEATURES, NOME_MODELO
+from classifier import prever, FEATURES, NOME_MODELO, METRICAS
 import database
 
 app = Flask(__name__)
@@ -114,7 +114,8 @@ def dashboard():
                      title="Distribuição das predições realizadas")
         fig.update_layout(showlegend=False, margin=dict(t=50, b=20))
         grafico = pio.to_html(fig, full_html=False, include_plotlyjs="cdn")
-    return render_template("dashboard.html", stats=stats, grafico=grafico)
+    return render_template("dashboard.html", stats=stats, grafico=grafico,
+                           modelo=NOME_MODELO, metricas=METRICAS)
 
 
 if __name__ == "__main__":

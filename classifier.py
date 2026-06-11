@@ -15,6 +15,7 @@ _pacote = joblib.load(_CAMINHO)
 _pipeline = _pacote["pipeline"]
 FEATURES = _pacote["features"]
 NOME_MODELO = _pacote["nome_modelo"]
+METRICAS = _pacote.get("metricas")  # acurácia, precisão, sensibilidade e F1 (%)
 
 
 def prever(valores: dict) -> dict:

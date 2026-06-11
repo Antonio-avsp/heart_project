@@ -24,4 +24,30 @@
         predição para ver as estatísticas aqui.</p>
     {% endif %}
 </section>
+
+{% if metricas %}
+<section class="cartao">
+    <h2>Desempenho do modelo ({{ modelo }})</h2>
+    <p class="subtitulo">Médias obtidas em 30 execuções com divisões
+    treino/teste diferentes.</p>
+    <div class="indicadores">
+        <div class="indicador">
+            <span class="indicador-numero">{{ metricas.acuracia }}%</span>
+            <span class="indicador-label">Acurácia</span>
+        </div>
+        <div class="indicador">
+            <span class="indicador-numero">{{ metricas.precisao }}%</span>
+            <span class="indicador-label">Precisão</span>
+        </div>
+        <div class="indicador">
+            <span class="indicador-numero">{{ metricas.sensibilidade }}%</span>
+            <span class="indicador-label">Sensibilidade (recall)</span>
+        </div>
+        <div class="indicador">
+            <span class="indicador-numero">{{ metricas.f1 }}%</span>
+            <span class="indicador-label">F1-Score</span>
+        </div>
+    </div>
+</section>
+{% endif %}
 {% endblock %}
